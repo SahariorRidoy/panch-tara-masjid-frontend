@@ -64,7 +64,7 @@ export function Footer() {
             </li>
             <li className="flex items-center gap-2">
               <LogIn size={14} className="shrink-0 text-gray-500" />
-              <Link href="/login" className="text-gray-500 hover:text-gray-300 transition-colors">Admin Login</Link>
+              <Link href="/login" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-gray-300 transition-colors">Admin Login</Link>
             </li>
           </ul>
         </div>

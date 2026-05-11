@@ -72,21 +72,31 @@ export default function DonationsPage() {
   const [dialogOpen, setDialogOpen] = useState(false);
 
   const now = new Date();
+  const [filterMode, setFilterMode] = useState<"month" | "year" | "custom">("month");
   const [month, setMonth] = useState(now.getMonth() + 1);
   const [year, setYear] = useState(now.getFullYear());
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
 
-  const summaryParams = `month=${month}&year=${year}`;
-  const listParams = `page=${page}&limit=10${tab !== "all" ? `&type=${tab}` : ""}&month=${month}&year=${year}`;
+  const buildParams = () => {
+    if (filterMode === "month") return `month=${month}&year=${year}`;
+    if (filterMode === "year") return `year=${year}`;
+    if (filterMode === "custom" && startDate && endDate) return `startDate=${startDate}&endDate=${endDate}`;
+    return `month=${month}&year=${year}`;
+  };
+
+  const summaryParams = buildParams();
+  const listParams = `page=${page}&limit=10${tab !== "all" ? `&type=${tab}` : ""}&${buildParams()}`;
 
   const { data: summary, refetch: refetchSummary } = useQuery<DonationSummary>({
-    queryKey: ["donation-summary", month, year],
+    queryKey: ["donation-summary", filterMode, month, year, startDate, endDate],
     queryFn: () => api.get(`/donations/summary?${summaryParams}`).then((r) => r.data.data),
     staleTime: 10_000,
     refetchOnWindowFocus: true,
   });
 
   const { data, isLoading, isFetching, refetch } = useQuery<PaginatedData<Donation>>({
-    queryKey: ["donations-admin", page, tab, month, year],
+    queryKey: ["donations-admin", page, tab, filterMode, month, year, startDate, endDate],
     queryFn: () => api.get(`/donations?${listParams}`).then((r) => r.data.data),
     staleTime: 10_000,
     refetchOnWindowFocus: true,
@@ -180,31 +190,84 @@ export default function DonationsPage() {
       />
 
       {/* Period Filter */}
-      <div className="bg-white rounded-xl border shadow-sm p-4 flex flex-wrap items-center gap-3">
-        <Filter size={16} className="text-gray-400" />
-        <Label className="text-xs font-semibold text-gray-500 uppercase">Period:</Label>
-        <Select value={String(month)} onValueChange={(v) => { setMonth(Number(v)); setPage(1); }}>
-          <SelectTrigger className="w-32 h-8 text-xs">
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            {Array.from({ length: 12 }, (_, i) => (
-              <SelectItem key={i + 1} value={String(i + 1)}>
-                {new Date(0, i).toLocaleString("en", { month: "long" })}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-        <Select value={String(year)} onValueChange={(v) => { setYear(Number(v)); setPage(1); }}>
-          <SelectTrigger className="w-24 h-8 text-xs">
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            {Array.from({ length: 5 }, (_, i) => now.getFullYear() - i).map((y) => (
-              <SelectItem key={y} value={String(y)}>{y}</SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+      <div className="bg-white rounded-xl border shadow-sm p-4 space-y-3">
+        <div className="flex flex-wrap items-center gap-3">
+          <Filter size={16} className="text-gray-400" />
+          <Label className="text-xs font-semibold text-gray-500 uppercase">Filter By:</Label>
+          <Select value={filterMode} onValueChange={(v) => { if (v) { setFilterMode(v as typeof filterMode); setPage(1); } }}>
+            <SelectTrigger className="w-32 h-8 text-xs">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="month">Month</SelectItem>
+              <SelectItem value="year">Year</SelectItem>
+              <SelectItem value="custom">Custom Range</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+        
+        {filterMode === "month" && (
+          <div className="flex flex-wrap items-center gap-3">
+            <Label className="text-xs text-gray-500">Select Month & Year:</Label>
+            <Select value={String(month)} onValueChange={(v) => { setMonth(Number(v)); setPage(1); }}>
+              <SelectTrigger className="w-32 h-8 text-xs">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {Array.from({ length: 12 }, (_, i) => (
+                  <SelectItem key={i + 1} value={String(i + 1)}>
+                    {new Date(0, i).toLocaleString("en", { month: "long" })}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            <Select value={String(year)} onValueChange={(v) => { setYear(Number(v)); setPage(1); }}>
+              <SelectTrigger className="w-24 h-8 text-xs">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {Array.from({ length: 5 }, (_, i) => now.getFullYear() - i).map((y) => (
+                  <SelectItem key={y} value={String(y)}>{y}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+        )}
+        
+        {filterMode === "year" && (
+          <div className="flex flex-wrap items-center gap-3">
+            <Label className="text-xs text-gray-500">Select Year:</Label>
+            <Select value={String(year)} onValueChange={(v) => { setYear(Number(v)); setPage(1); }}>
+              <SelectTrigger className="w-24 h-8 text-xs">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {Array.from({ length: 10 }, (_, i) => now.getFullYear() - i).map((y) => (
+                  <SelectItem key={y} value={String(y)}>{y}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+        )}
+        
+        {filterMode === "custom" && (
+          <div className="flex flex-wrap items-center gap-3">
+            <Label className="text-xs text-gray-500">From:</Label>
+            <Input
+              type="date"
+              value={startDate}
+              onChange={(e) => { setStartDate(e.target.value); setPage(1); }}
+              className="w-36 h-8 text-xs"
+            />
+            <Label className="text-xs text-gray-500">To:</Label>
+            <Input
+              type="date"
+              value={endDate}
+              onChange={(e) => { setEndDate(e.target.value); setPage(1); }}
+              className="w-36 h-8 text-xs"
+            />
+          </div>
+        )}
       </div>
 
       {/* Summary Cards */}

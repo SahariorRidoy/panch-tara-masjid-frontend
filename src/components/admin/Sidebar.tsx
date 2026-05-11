@@ -36,7 +36,7 @@ const menu = [
   },
   {
     label: "Finance", icon: null, children: [
-      { label: "Donations", href: "/dashboard/donations", icon: DollarSign },
+      { label: "Accounts and Donation", href: "/dashboard/donations", icon: DollarSign },
       { label: "Payment Methods", href: "/dashboard/payment-methods", icon: CreditCard },
     ],
   },

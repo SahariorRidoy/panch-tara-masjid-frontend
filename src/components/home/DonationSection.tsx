@@ -1,5 +1,6 @@
 "use client";
 import { useQuery } from "@tanstack/react-query";
+import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import api from "@/lib/axios";
@@ -86,9 +87,16 @@ export function DonationSection() {
           >
             <p className="text-[#d4a017] text-[10px] font-bold uppercase tracking-widest mb-4">Mobile Banking</p>
             <div className="space-y-5">
-              {mobileMethods.map((m, i) => (
+              {mobileMethods.map((m, i) => {
+                const isBkash = m.provider.en.toLowerCase().includes("bkash");
+                const isNagad = m.provider.en.toLowerCase().includes("nagad");
+                return (
                 <div key={m._id} className={i > 0 ? "border-t border-white/10 pt-5" : ""}>
-                  <p className="text-white/60 text-xs mb-0.5">{m.provider.en}</p>
+                  <div className="flex items-center gap-2 mb-1">
+                    {isBkash && <Image src="/bkash.png" alt="bkash" width={48} height={24} className="shrink-0" />}
+                    {isNagad && <Image src="/nagad.png" alt="nagad" width={48} height={24} className="shrink-0" />}
+                    <p className="text-white/60 text-xs">{m.provider.en}</p>
+                  </div>
                   <p className="text-white font-mono font-bold text-2xl tracking-widest">{m.accountNumber}</p>
                   <button
                     onClick={() => navigator.clipboard.writeText(m.accountNumber ?? "")}
@@ -97,7 +105,8 @@ export function DonationSection() {
                     Copy number
                   </button>
                 </div>
-              ))}
+                );
+              })}
             </div>
           </motion.div>
         </div>

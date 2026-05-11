@@ -2,6 +2,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { Heart, Copy, CheckCircle2 } from "lucide-react";
 import { useState } from "react";
+import Image from "next/image";
 import api from "@/lib/axios";
 import { ContactInfo, PaymentMethod } from "@/types";
 import { useLang } from "@/lib/LangContext";
@@ -110,9 +111,16 @@ export default function DonatePage() {
               📱 {lang === "en" ? "Mobile Banking" : "মোবাইল ব্যাংকিং"}
             </h2>
             <div className="space-y-6 text-sm">
-              {mobileMethods.map((m, i) => (
+              {mobileMethods.map((m, i) => {
+                const isBkash = m.provider.en.toLowerCase().includes("bkash");
+                const isNagad = m.provider.en.toLowerCase().includes("nagad");
+                return (
                 <div key={m._id} className={i > 0 ? "pt-6 border-t border-gray-100" : ""}>
-                  <p className="text-gray-400 mb-1">{lang === "en" ? m.provider.en : m.provider.bn}</p>
+                  <div className="flex items-center gap-2 mb-1">
+                    {isBkash && <Image src="/bkash.png" alt="bkash" width={60} height={20} className="shrink-0" />}
+                    {isNagad && <Image src="/nagad.png" alt="nagad" width={60} height={20} className="shrink-0" />}
+                    <p className="text-gray-400">{lang === "en" ? m.provider.en : m.provider.bn}</p>
+                  </div>
                   <div className="flex items-center gap-2">
                     <p className="font-mono font-bold text-xl text-gray-800">{m.accountNumber}</p>
                     <CopyBtn text={m.accountNumber ?? ""} id={m._id} copied={copied} onCopy={copy} />
@@ -123,7 +131,8 @@ export default function DonatePage() {
                     </p>
                   )}
                 </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         </div>

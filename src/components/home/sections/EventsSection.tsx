@@ -315,8 +315,11 @@ export function EventsSection() {
                   <h2 className="text-xl font-bold text-[#1a7a4a] border-l-4 border-[#d4a017] pl-3">
                     {lang === "bn" ? "ডকুমেন্ট" : "Documents"}
                   </h2>
+                  <Link href="/documents" className="text-sm text-[#1a7a4a] font-medium hover:underline">
+                    {lang === "bn" ? "সব দেখুন →" : "View All →"}
+                  </Link>
                 </motion.div>
-                <div className="bg-white rounded-xl border-2 border-[#d4a017]/20 shadow-sm divide-y divide-gray-100 overflow-hidden">
+                <div className="bg-white rounded-xl border-2 border-[#d4a017]/20 shadow-sm divide-y divide-gray-100 max-h-[400px] overflow-y-auto custom-scrollbar">
                   {documents.length > 0 ? documents.map((d, i) => {
                     const ext = "." + (d.fileType ?? "pdf");
                     const filename = d.title.en.replace(/[^a-z0-9]/gi, "_").toLowerCase() + ext;

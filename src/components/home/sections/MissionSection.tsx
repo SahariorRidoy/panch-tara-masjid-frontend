@@ -108,7 +108,7 @@ export function MissionSection() {
             transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
           >
             <div className="relative w-90 h-130 rounded-2xl overflow-hidden shadow-lg">
-              <Image src="/model.jpg" alt="Masjid Complex Model" fill className="object-cover" />
+              <Image src="/model2.jpg" alt="Masjid Complex Model" fill className="object-cover" />
               <div className="absolute inset-0 bg-linear-to-t from-black/50 to-transparent" />
               <div className="absolute bottom-4 left-4 right-4">
                 <p className="text-white font-bold text-lg leading-tight mb-1">
