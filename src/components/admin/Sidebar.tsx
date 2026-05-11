@@ -42,7 +42,7 @@ const menu = [
   },
   {
     label: "Files", icon: null, children: [
-      // { label: "Media Gallery", href: "/dashboard/media", icon: ImageIcon },
+      { label: "Media Gallery", href: "/dashboard/media", icon: ImageIcon },
       { label: "Documents", href: "/dashboard/documents", icon: FileText },
     ],
   },
