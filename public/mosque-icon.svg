@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+  <!-- Sky background -->
+  <rect width="100" height="100" rx="50" fill="#1a7a4a"/>
+
+  <!-- Main dome -->
+  <ellipse cx="50" cy="42" rx="18" ry="16" fill="#f5f0e8"/>
+  <rect x="32" y="42" width="36" height="22" fill="#f5f0e8"/>
+
+  <!-- Left minaret -->
+  <rect x="18" y="38" width="8" height="26" fill="#f5f0e8"/>
+  <ellipse cx="22" cy="38" rx="4" ry="6" fill="#d4a017"/>
+  <rect x="20" y="32" width="4" height="6" fill="#d4a017"/>
+  <rect x="21" y="29" width="2" height="4" fill="#d4a017"/>
+
+  <!-- Right minaret -->
+  <rect x="74" y="38" width="8" height="26" fill="#f5f0e8"/>
+  <ellipse cx="78" cy="38" rx="4" ry="6" fill="#d4a017"/>
+  <rect x="76" y="32" width="4" height="6" fill="#d4a017"/>
+  <rect x="77" y="29" width="2" height="4" fill="#d4a017"/>
+
+  <!-- Dome crescent -->
+  <path d="M47 30 Q50 24 53 30 Q51 27 49 27 Q47 27 47 30Z" fill="#d4a017"/>
+  <circle cx="50" cy="26" r="1.5" fill="#d4a017"/>
+
+  <!-- Door arch -->
+  <path d="M44 64 L44 54 Q50 48 56 54 L56 64 Z" fill="#1a7a4a"/>
+
+  <!-- Windows -->
+  <path d="M36 52 Q39 48 42 52 L42 58 L36 58 Z" fill="#1a7a4a"/>
+  <path d="M58 52 Q61 48 64 52 L64 58 L58 58 Z" fill="#1a7a4a"/>
+
+  <!-- Ground line -->
+  <rect x="14" y="64" width="72" height="3" rx="1.5" fill="#d4a017"/>
+
+  <!-- Stars -->
+  <circle cx="28" cy="22" r="1.2" fill="#d4a017" opacity="0.8"/>
+  <circle cx="72" cy="18" r="1" fill="#d4a017" opacity="0.8"/>
+  <circle cx="85" cy="28" r="0.8" fill="#d4a017" opacity="0.6"/>
+  <circle cx="15" cy="30" r="0.8" fill="#d4a017" opacity="0.6"/>
+</svg>
