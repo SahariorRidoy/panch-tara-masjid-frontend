@@ -8,6 +8,7 @@ import { BlogPost } from "@/types";
 import { useLang } from "@/lib/LangContext";
 import { useState } from "react";
 import { Calendar, User, ArrowRight, ImageOff } from "lucide-react";
+import ShareButton from "@/components/ui/ShareButton";
 import { scaleIn } from "@/lib/animations";
 
 const categories = [
@@ -165,13 +166,16 @@ export function BlogSection() {
                         {lang === "bn" ? post.description.bn : post.description.en}
                       </p>
 
-                      <Link
-                        href={`/blog/${post._id}`}
-                        className="inline-flex items-center gap-2 text-[#1a7a4a] font-semibold text-sm group-hover:gap-3 transition-all"
-                      >
-                        {lang === "bn" ? "আরও পড়ুন" : "Read More"}
-                        <ArrowRight size={16} />
-                      </Link>
+                      <div className="flex items-center justify-between">
+                        <Link
+                          href={`/blog/${post._id}`}
+                          className="inline-flex items-center gap-2 text-[#1a7a4a] font-semibold text-sm group-hover:gap-3 transition-all"
+                        >
+                          {lang === "bn" ? "আরও পড়ুন" : "Read More"}
+                          <ArrowRight size={16} />
+                        </Link>
+                        <ShareButton url={`/blog/${post._id}`} title={lang === "bn" ? post.title.bn : post.title.en} />
+                      </div>
                     </div>
                   </motion.article>
                 ))}

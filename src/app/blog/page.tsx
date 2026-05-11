@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { BookOpen, Calendar, User, ArrowRight, Search } from "lucide-react";
+import ShareButton from "@/components/ui/ShareButton";
 import api from "@/lib/axios";
 import { BlogPost } from "@/types";
 import { useLang } from "@/lib/LangContext";
@@ -196,9 +197,12 @@ export default function BlogPage() {
                       <p className="text-gray-600 text-sm leading-relaxed mb-6 line-clamp-3">
                         {lang === "bn" ? featured.description.bn : featured.description.en}
                       </p>
-                      <span className="inline-flex items-center gap-2 text-[#1a7a4a] font-semibold text-sm group-hover:gap-3 transition-all">
-                        {lang === "bn" ? "আরও পড়ুন" : "Read Full Article"} <ArrowRight size={16} />
-                      </span>
+                      <div className="flex items-center justify-between">
+                        <span className="inline-flex items-center gap-2 text-[#1a7a4a] font-semibold text-sm group-hover:gap-3 transition-all">
+                          {lang === "bn" ? "আরও পড়ুন" : "Read Full Article"} <ArrowRight size={16} />
+                        </span>
+                        <ShareButton url={`/blog/${featured._id}`} title={lang === "bn" ? featured.title.bn : featured.title.en} />
+                      </div>
                     </div>
                   </div>
                 </Link>
@@ -237,12 +241,15 @@ export default function BlogPage() {
                       <p className="text-sm text-gray-600 line-clamp-3 mb-4 flex-1">
                         {lang === "bn" ? post.description.bn : post.description.en}
                       </p>
-                      <Link
-                        href={`/blog/${post._id}`}
-                        className="inline-flex items-center gap-2 text-[#1a7a4a] font-semibold text-sm group-hover:gap-3 transition-all"
-                      >
-                        {lang === "bn" ? "আরও পড়ুন" : "Read More"} <ArrowRight size={16} />
-                      </Link>
+                      <div className="flex items-center justify-between">
+                        <Link
+                          href={`/blog/${post._id}`}
+                          className="inline-flex items-center gap-2 text-[#1a7a4a] font-semibold text-sm group-hover:gap-3 transition-all"
+                        >
+                          {lang === "bn" ? "আরও পড়ুন" : "Read More"} <ArrowRight size={16} />
+                        </Link>
+                        <ShareButton url={`/blog/${post._id}`} title={lang === "bn" ? post.title.bn : post.title.en} />
+                      </div>
                     </div>
                   </article>
                 ))}
