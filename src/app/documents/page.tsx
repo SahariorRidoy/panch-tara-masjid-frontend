@@ -7,7 +7,7 @@ import { motion } from "framer-motion";
 import api from "@/lib/axios";
 import { Document } from "@/types";
 import { useLang } from "@/lib/LangContext";
-import { FileText, Download, Eye, X, Loader2, PackageOpen, ChevronLeft } from "lucide-react";
+import { FileText, Download, Eye, Loader2, PackageOpen, ChevronLeft } from "lucide-react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import Navbar from "@/components/home/Navbar";
 import { Footer } from "@/components/home/BottomSections";
@@ -165,7 +165,7 @@ export default function DocumentsPage() {
         const kind = getPreviewKind(previewDoc.fileType);
         return (
           <Dialog open={!!previewDoc} onOpenChange={() => { setPreviewDoc(null); setTxtContent(null); }}>
-            <DialogContent className="w-[95vw] md:max-w-[60vw] h-[80vh] flex flex-col !p-4 gap-0">
+            <DialogContent className="w-[95vw] md:max-w-[60vw] h-[80vh] flex flex-col p-4! gap-0">
               <div className="flex items-center gap-3 pb-3 border-b shrink-0 pr-8">
                 <div className="flex-1 min-w-0">
                   <p className="font-semibold text-gray-800 truncate">{previewDoc.title.en}</p>
